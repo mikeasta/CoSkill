@@ -132,7 +132,7 @@ router.put("/post/:post_id/like",[
     const { id }      = req.user;
 
     try {
-        const post = await Post.findOne({ _id: post_id });
+        let post = await Post.findOne({ _id: post_id });
 
         if (!post) {
             return res.status(400).json({
@@ -158,4 +158,121 @@ router.put("/post/:post_id/like",[
         return serverError(res, err);
     }
 });
+
+
+// @route:  DELETE api/posts/post/:post_id/like
+// @desc:   Unlike post
+// @access: Private
+
+router.delete("/post/:post_id/like", [
+    auth,
+    checkObjectId("post_id")
+], async (req, res) => {
+    const { post_id } = req.params;
+    const { id } = req.user;
+
+    try {
+        const post = await Post.findOne({ _id: post_id });
+
+        if (!post) {
+            return res.status(400).json({
+                msg: "There is no post =(. Please, make sure that you've entered valid link"
+            });
+        }
+
+        post.likes = post.likes.filter( like => {
+            return like.user !=  id;
+        });
+
+        await post.save();
+        return res.json(post);
+    } catch (err) {
+        return serverError(res, err);
+    }
+});
+
+
+// @route:  POST api/posts/post/:post_id/comment
+// @desc:   Leave a comment to post
+// @access: Private
+
+router.post("/post/:post_id/comment", [
+    auth,
+    checkObjectId("post_id"),
+    check("text", "Comment text is required").notEmpty()
+], async (req, res) => {
+    const { post_id } = req.params;
+    const { id }      = req.user;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            errors: errors.array()
+        });
+    }   
+
+    try {
+        const post = await Post.findById( post_id );
+        const user = await User.findById(id).select(["-password", "-email", "-date"]);
+
+        if (!post) {
+            return res.status(400).json({
+                msg: "There is no post =(. Please, make sure that you've entered valid link"
+            });
+        }
+
+        const {
+            name,
+            secondName,
+            avatar
+        } = user;
+
+        const commentFields = {
+            name,
+            secondName,
+            avatar,
+            text: req.body.text,
+            user: id
+        };
+
+        post.comments.unshift(commentFields);
+        await post.save();
+        return res.json(post);
+    } catch (err) {
+        return serverError(res, err);
+    }
+});
+
+
+// @route:  DELETE api/posts/post/:post_id/comment/:comment_id
+// @desc:   Delete a comment from post
+// @access: Private
+
+router.delete("/post/:post_id/comment/:comment_id", [
+    auth, 
+    checkObjectId("post_id"),
+    checkObjectId("comment_id")
+], async (req, res) => {
+    const { post_id, comment_id } = req.params;
+
+    try {
+        const post = await Post.findById(post_id);
+
+        if (!post) {
+            return res.status(400).json({
+                msg: "There is no post =(. Please, make sure that you've entered valid link"
+            });
+        }
+
+        post.comments = post.comments.filter( comment => {
+            return comment._id != comment_id;
+        });
+
+        await post.save();
+        return res.json(post);
+    } catch (err) {
+        return serverError(res, err);
+    }
+});
+
 module.exports = router;
