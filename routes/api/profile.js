@@ -1,8 +1,13 @@
-const express = require("express");
+const express                     = require("express");
+const { check, validationResult } = require("express-validator");
+
 const checkObjectId = require("../../middleware/checkObjectId");
+const auth          = require("../../middleware/auth");
+
 const Profile = require("../../models/Profile");
 const User    = require("../../models/User");
 const Post    = require("../../models/Post");
+
 const router = express.Router();
 
 // @route:  GET api/profile/me
@@ -43,7 +48,7 @@ router.get("/me", auth, async(req, res) => {
 router.post("/", [
     auth,
     [
-        check("skills", "Skills are required").not().isEmpty()
+        check("skills", "Skills are required").notEmpty()
     ]
 ], async (req, res) => {
     const errors = validationResult(req);
@@ -72,18 +77,18 @@ router.post("/", [
         phone,
         fax,
         email,
-        vider,
+        viber,
         hangouts,
         skype
     } = req.body;
 
-    const profileFields = {};
+    let profileFields = {};
     profileFields.user = req.user.id;
 
-    if (company) profileFields.company = company;
-    if (website) profileFields.website = website;
+    if (company)  profileFields.company  = company;
+    if (website)  profileFields.website  = website;
     if (location) profileFields.location = location;
-    if (bio) profileFields.bio = bio;
+    if (bio)      profileFields.bio      = bio;
     if (skills) {
         profileFields.skills = skills
             .split(",")
@@ -92,22 +97,27 @@ router.post("/", [
             });
     }
 
-    if (youtube) profileFields.social.youtube = youtube;
-    if (twitter) profileFields.social.twitter = twitter;
-    if (facebook) profileFields.social.facebook = facebook;
-    if (linkedin) profileFields.social.linkedin = linkedin;
-    if (instagram) profileFields.social.instagram = instagram;
-    if (vk) profileFields.social.vk = vk;
-    if (tiktok) profileFields.social.tiktok = tiktok;
-    if (telegram) profileFields.social.telegram = telegram;
+    let socialFields = {};
+    if (youtube)   socialFields.youtube   = youtube;
+    if (twitter)   socialFields.twitter   = twitter;
+    if (facebook)  socialFields.facebook  = facebook;
+    if (linkedin)  socialFields.linkedin  = linkedin;
+    if (instagram) socialFields.instagram = instagram;
+    if (vk)        socialFields.vk        = vk;
+    if (tiktok)    socialFields.tiktok    = tiktok;
+    if (telegram)  socialFields.telegram  = telegram;
 
-    if (mobilePhone) progilefields.contacts.mobilePhone = mobilePhone;
-    if (phone) progilefields.contacts.phone = phone;
-    if (fax) progilefields.contacts.fax = fax;
-    if (email) progilefields.contacts.email = email;
-    if (viber) progilefields.contacts.viber = viber;
-    if (hangouts) progilefields.contacts.hangouts = hangouts;
-    if (skype) progilefields.contacts.skype = skype;
+    let contactFields = {};
+    if (mobilePhone) contactFields.mobilePhone = mobilePhone;
+    if (phone)       contactFields.phone       = phone;
+    if (fax)         contactFields.fax         = fax;
+    if (email)       contactFields.email       = email;
+    if (viber)       contactFields.viber       = viber;
+    if (hangouts)    contactFields.hangouts    = hangouts;
+    if (skype)       contactFields.skype       = skype;
+
+    profileFields.social   = socialFields;
+    profileFields.contacts = contactFields;
 
     try {
         let profile = await Profile.findOne({ user: req.user.id });
@@ -117,9 +127,9 @@ router.post("/", [
             { user: req.user.id },
             { $set: profileFields },
             { 
-                    new: true, 
-                    upsert: true, 
-                    setDefaultsOnInsert: true 
+                new: true, 
+                upsert: true, 
+                setDefaultsOnInsert: true 
             }
         );
 
@@ -161,8 +171,7 @@ router.get(
                 .findOne({ user: user_id })
                 .populate("user", ["name", "secondName", "avatar"]);
 
-            if (!profile)
-                return res.status(400).json({ msg: "Profile not found"});
+            if (!profile) return res.status(400).json({ msg: "Profile not found"});
                 
             return res.json(profile);
         } catch (err) {
@@ -182,7 +191,6 @@ router.delete("/", auth, async (req, res) => {
             Post.deleteMany({ user: req.user.id }),
             Profile.findOneAndRemove({ user: req.user.id }),
             User.findOneAndRemove({ _id: req.user.id })
-
         ]);
 
         return res.json("User deleted");
@@ -203,8 +211,54 @@ router.put("/education", [
         check("school", "School is required").notEmpty(),
         check("degree", "Degree is required").notEmpty(),
         check("fieldofstudy", "Field of study is required").notEmpty(),
+        check("from", "From is required").notEmpty()
+    ],
+    async (req, res) => {
 
+        const errors = validationResult(req);
 
-    ]
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                errors: errors.array()
+            });
+        }
+
+        try {
+            const profile = await Profile.findOne({ user: req.user.id });
+            
+            profile.education.unshift(req.body);
+
+            await profile.save();
+            return res.json(profile);
+        } catch (err) {
+            console.error(err.message);
+            return res.status(500).send("Server Error!");
+        }
+    }
 ]);
+
+
+// @route: DELETE api/profile/education/:education_id
+// @desc:  Add education to profile
+// @access: Private
+
+router.delete("/education/:education_id", [
+    auth,
+    checkObjectId("education_id")
+], async (req, res) => {
+    try {
+        let profile = await Profile.findOne({ user: req.user.id });
+
+        profile.education = profile.education.filter( edu => {
+            return edu._id.toString() != req.params.education_id; 
+        });
+
+        await profile.save();
+        return res.json(profile);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(500).send("Server Error!");
+    }
+});
+
 module.exports = router;
