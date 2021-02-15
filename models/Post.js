@@ -11,6 +11,9 @@ const PostSchema = new mongoose.Schema({
     name: {
         type: String
     },
+    secondName: {
+        type: String
+    },
     avatar: {
         type: String
     },
@@ -33,6 +36,9 @@ const PostSchema = new mongoose.Schema({
                 required: true
             },
             name: {
+                type: String
+            },
+            secondName: {
                 type: String
             },
             avatar: {
