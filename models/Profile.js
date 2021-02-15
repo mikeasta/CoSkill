@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const ProfileSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -66,7 +67,7 @@ const ProfileSchema = new mongoose.Schema({
         instagram: {
             type: String
         },
-        VK: {
+        vk: {
             type: String
         },
         tiktok: {
@@ -77,7 +78,7 @@ const ProfileSchema = new mongoose.Schema({
         }
     },
     contacts: {
-        mobilephone: {
+        mobilePhone: {
             type: String
         },
         phone: {

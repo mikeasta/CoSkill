@@ -7,7 +7,10 @@ const config    = require("config");
 const auth      = require("../../middleware/auth");
 const router    = express.Router();
 
-// 1. Get user data
+// @route:  GET api/auth
+// @desc:   Get current user data
+// @access: Private
+
 router.get("/", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
@@ -18,7 +21,11 @@ router.get("/", auth, async (req, res) => {
     }
 });
 
-// 2. Authenication
+
+// @route:  POST api/auth
+// @desc:   Sign in
+// @access: Public
+
 router.post("/", [
     check("email", "Valid email is required!")
         .isEmail(),
