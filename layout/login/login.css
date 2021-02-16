@@ -1,0 +1,43 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(225deg, rgba(49,224,123,1) 31%, rgb(28, 129, 72) 100%);
+}
+
+#login-label {
+    position: absolute;
+    top: 10%;
+}
+
+#wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.login-form {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    background-color: #ecf0f1;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.login-form input {
+    margin: 10px 0;
+    width: 300px;
+}
+
+.login-form button {
+    margin: 10px 0;
+}
