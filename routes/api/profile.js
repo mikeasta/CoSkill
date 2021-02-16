@@ -18,7 +18,7 @@ router.get("/me", auth, async(req, res) => {
     try {
         const profile = await Profile
             .findOne({user: req.user.id})
-            .populate("user", ["name", "secondName", "avatar"]);
+            .populate("user", ["name", "secondName", "avatar", "accountStatus"]);
 
         if (!profile) {
             return res.status(400).json({
@@ -89,14 +89,8 @@ router.post("/", [
     if (website)  profileFields.website  = website;
     if (location) profileFields.location = location;
     if (bio)      profileFields.bio      = bio;
-    if (skills) {
-        profileFields.skills = skills
-            .split(",")
-            .map(skill => {
-                return skill.trim();
-            });
-    }
-
+    if (skills)   profileFields.skills   = skills;
+    
     let socialFields = {};
     if (youtube)   socialFields.youtube   = youtube;
     if (twitter)   socialFields.twitter   = twitter;
@@ -149,7 +143,7 @@ router.get("/", async (req, res) => {
     try {
         const profiles = await Profile
             .find()
-            .populate("user", ["name", "secondName", "avatar"]);
+            .populate("user", ["name", "secondName", "avatar", "accountStatus"]);
         
         return res.json(profiles);
     } catch (err) {
@@ -169,7 +163,7 @@ router.get(
         try {
             const profile = await Profile
                 .findOne({ user: user_id })
-                .populate("user", ["name", "secondName", "avatar"]);
+                .populate("user", ["name", "secondName", "avatar", "accountStatus"]);
 
             if (!profile) return res.status(400).json({ msg: "Profile not found"});
                 

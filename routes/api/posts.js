@@ -120,11 +120,11 @@ router.delete("/post/:post_id", [
 });
 
 
-// @route:  PUT api/posts/post/:post_id/like
+// @route:  PUT api/posts/post/like/:post_id
 // @desc:   Like post
 // @access: Private
 
-router.put("/post/:post_id/like",[
+router.put("/post/like/:post_id",[
     auth,
     checkObjectId("post_id")
 ], async (req, res) => {
@@ -160,11 +160,11 @@ router.put("/post/:post_id/like",[
 });
 
 
-// @route:  DELETE api/posts/post/:post_id/like
+// @route:  DELETE api/posts/post/like/:post_id
 // @desc:   Unlike post
 // @access: Private
 
-router.delete("/post/:post_id/like", [
+router.delete("/post/like/:post_id", [
     auth,
     checkObjectId("post_id")
 ], async (req, res) => {
@@ -192,11 +192,11 @@ router.delete("/post/:post_id/like", [
 });
 
 
-// @route:  POST api/posts/post/:post_id/comment
+// @route:  POST api/posts/post/comment/:post_id
 // @desc:   Leave a comment to post
 // @access: Private
 
-router.post("/post/:post_id/comment", [
+router.post("/post/comment/:post_id", [
     auth,
     checkObjectId("post_id"),
     check("text", "Comment text is required").notEmpty()
@@ -244,11 +244,11 @@ router.post("/post/:post_id/comment", [
 });
 
 
-// @route:  DELETE api/posts/post/:post_id/comment/:comment_id
+// @route:  DELETE api/posts/post/comment/:post_id/:comment_id
 // @desc:   Delete a comment from post
 // @access: Private
 
-router.delete("/post/:post_id/comment/:comment_id", [
+router.delete("/post/comment/:post_id/:comment_id", [
     auth, 
     checkObjectId("post_id"),
     checkObjectId("comment_id")
@@ -275,4 +275,99 @@ router.delete("/post/:post_id/comment/:comment_id", [
     }
 });
 
+
+// @route:  PUT api/posts/post/comment/like/:post_id/:comment_id
+// @desc:   Like a comment 
+// @access: Private
+
+router.put("/post/comment/like/:post_id/:comment_id", [
+    auth,
+    checkObjectId("post_id"),
+    checkObjectId("comment_id")
+], async (req, res) => {
+    const { post_id, comment_id } = req.params;
+    const { id } = req.user;
+    try {
+        // Check if post exists
+        const post = await Post.findById(post_id);
+
+        if (!post) {
+            return res.status(400).json({
+                msg: "There is no post =(. Please, make sure that you've entered valid link"
+            });
+        }
+
+        // Check if comment exists
+        const idx = post.comments.findIndex( comment => {
+            return comment._id == comment_id;
+        });
+
+        if (idx == -1) {
+            return res.status(400).json({
+                msg: "There is no comment =(. Please, make sure that you've entered valid link"
+            });
+        }
+
+        // Check if liked
+        let liked = post.comments[idx].likes.find( like => {
+            return like.user == id;
+        });
+
+        if (liked) {
+            return res.status(400).json({
+                msg: "You've already liked this comment"
+            });
+        }
+
+        post.comments[idx].likes.unshift({ user: id });
+        await post.save();
+        return res.json(post);
+    } catch (err) {
+        return serverError(res, err);
+    }
+});
+
+
+// @route:  DELETE api/posts/post/comment/like/:post_id/:comment_id
+// @desc:   Unlike a comment 
+// @access: Private
+
+router.delete("/post/comment/like/:post_id/:comment_id", [
+    auth,
+    checkObjectId("post_id"),
+    checkObjectId("comment_id")
+], async (req, res) => {
+    const { post_id, comment_id } = req.params;
+    const { id } = req.user;
+    try {
+        // Check if post exists
+        const post = await Post.findById(post_id);
+
+        if (!post) {
+            return res.status(400).json({
+                msg: "There is no post =(. Please, make sure that you've entered valid link"
+            });
+        }
+
+        // Check if comment exists
+        const idx = post.comments.findIndex( comment => {
+            return comment._id == comment_id;
+        });
+
+        if (idx == -1) {
+            return res.status(400).json({
+                msg: "There is no comment =(. Please, make sure that you've entered valid link"
+            });
+        }
+
+        post.comments[idx].likes = post.comments[idx].likes.filter( like => {
+            return like.user != id;
+        });
+
+        await post.save();
+        return res.json(post);
+    } catch (err) {
+        return serverError(res, err);
+    }
+});
 module.exports = router;

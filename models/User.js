@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    accountStatus: {
+        type: String,
+        default: "common"
     }
 });
 
