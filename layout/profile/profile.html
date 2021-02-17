@@ -26,9 +26,7 @@
                 <p class="user-cabinet-name">
                     Mikhail Astashonak
                 </p>
-                <div class="user-cabinet-skill">
-                    Full-Stack Dev.
-                </div>
+                <p>Tap to view profile <i class="fas fa-arrow-right"></i></p>
             </div>
             <div class="user-cabinet-photo">
                 <img src="https://sun9-69.userapi.com/impg/yOyOCofk2QWpjiSLTs7D6ZtxEzxW7zLlbH1FBA/T4RDmYLU8Qo.jpg?size=541x551&quality=96&proxy=1&sign=77c757f173d271632d91b5818440674d&type=album" alt="">
@@ -161,13 +159,24 @@
                 </div>
             </section>
 
+            <section id="create-post">
+                <h3>
+                    Create a new post: 
+                </h3>
+                <textarea placeholder="Your text"></textarea>
+                <button class="btn btn-success">
+                    Post
+                </button>
+            </section>
+
             <section class="profile-posts">
                 <h3>
                     Posts: 
                 </h3>
                 <div class="profile-posts-container">
+                
                     <div class="post">
-
+                        <i class="delete-post fas fa-minus-circle"></i>
                         <div class="post-user">
                             <img class="post-user-avatar" src="https://sun9-69.userapi.com/impg/yOyOCofk2QWpjiSLTs7D6ZtxEzxW7zLlbH1FBA/T4RDmYLU8Qo.jpg?size=541x551&quality=96&proxy=1&sign=77c757f173d271632d91b5818440674d&type=album" alt="">
                             <div class="post-user-preview">
@@ -188,11 +197,38 @@
 
                         <div class="post-community">
                             <div id="post-view-comments">View comments</div>
-                            <button class="post-likes">
-                                Liked <i class="far fa-thumbs-up"></i> 46
+                            <button class="post-likes btn btn-success">
+                                <i class="far fa-thumbs-up"></i> 46
                             </button>
                         </div>
                         
+                        <div class="post-comments">
+                            <h4>
+                                Comments: 
+                            </h4>
+                            <div class="comment">
+                                <i class="delete-comment fas fa-minus-circle"></i>
+                                <div class="comment-user">
+                                    <img class="comment-avatar" src="https://sun9-69.userapi.com/impg/yOyOCofk2QWpjiSLTs7D6ZtxEzxW7zLlbH1FBA/T4RDmYLU8Qo.jpg?size=541x551&quality=96&proxy=1&sign=77c757f173d271632d91b5818440674d&type=album" alt="">
+                                    <div class="comment-user-preview">
+                                        <p>Mikhail Astashonak</p>
+                                        <div class="post-user-skills">
+                                            <div class="skill-element">Hand-working</div>
+                                            <div class="skill-element">Programming</div>
+                                            <div class="skill-element">Baker</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="comment-text">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam minus illum asperiores, amet reiciendis sed error voluptatum deserunt nulla, provident eos perferendis cumque? At eaque temporibus dicta. Molestias, vel libero!
+                                </div>
+                                
+                                <button class="comment-likes btn btn-success">
+                                        <i class="far fa-thumbs-up"></i> 46
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
