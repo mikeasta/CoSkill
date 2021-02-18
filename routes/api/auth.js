@@ -1,30 +1,40 @@
-const express   = require("express");
-const User      = require("../../models/User");
-const bcrypt    = require("bcryptjs");
-const jwt       = require("jsonwebtoken");
+const express      = require("express");
+const User         = require("../../models/User");
+const bcrypt       = require("bcryptjs");
+const jwt          = require("jsonwebtoken");
 const {check, validationResult} = require("express-validator");
-const config    = require("config");
-const auth      = require("../../middleware/auth");
+const config       = require("config");
+const auth         = require("../../middleware/auth");
+const serverError  = require("../../utils/serverError");
+
 const router    = express.Router();
 
-// @route:  GET api/auth
-// @desc:   Get current user data
-// @access: Private
+
+/**
+ *  @description : Get current user data
+ *                 We are going to get user model without password property
+ *                 since thar we use .select("")
+ *  @route       : GET api/auth
+ *  @access      : Private 
+     */
 
 router.get("/", auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password");
         return res.json(user);
     } catch (err) {
-        console.error(err.message);
-        return res.status(500).send("Server Error!");
+        return serverError(res, err);
     }
 });
 
 
-// @route:  POST api/auth
-// @desc:   Sign in
-// @access: Public
+/**
+ *  @description : Sign in
+ *                 Each login leads to creation of new JWT token,
+ *                 so, we should not to sign new token
+ *  @route       : POST api/auth
+ *  @access      : Public
+     */
 
 router.post("/", [
     check("email", "Valid email is required!")
@@ -81,16 +91,15 @@ router.post("/", [
             payload,
             config.get("jwtSecret"),
             {
-                expiresIn: 360000
+                expiresIn: Number(config.get("jwtExpiresIn"))
             },
             (err, token) => {
                 if (err) throw err;
                 res.json({token});
             }
-        )
+        );
     } catch (err) {
-        console.error(err.message);
-        return res.status(500).send("Server Error!")
+        return serverError(res, err);
     }
 });
 

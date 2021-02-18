@@ -1,4 +1,5 @@
 {
     "jwtSecret": "bolkonskiy",
-    "mongoURI": "mongodb+srv://mikeasta:q1w2e3r4@devconnector.7lksf.mongodb.net/CoSkill?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://mikeasta:q1w2e3r4@devconnector.7lksf.mongodb.net/CoSkill?retryWrites=true&w=majority",
+    "jwtExpiresIn" : "360000"
 }

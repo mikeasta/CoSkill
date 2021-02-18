@@ -5,19 +5,21 @@ const gravatar = require("gravatar");
 const jwt      = require("jsonwebtoken");
 const config   = require("config");
 const User     = require("../../models/User");
-const auth     = require("../../middleware/auth");
+const serverError = require("../../utils/serverError");
 const router   = express.Router();
 
-// @route:  POST api/users
-// @desc:   Register user
-// @access: Public
+
+/**
+ *  @description : Create new user
+ *  @route       : POST api/users 
+ *  @access      : Public
+ */
+
 router.post("/", [
     check("name", "Name is required!")
-        .not()
-        .isEmpty(),
+        .notEmpty(),
         check("secondName", "Second name is required!")
-        .not()
-        .isEmpty(),
+        .notEmpty(),
     check("email", "Valid email is required!")
         .isEmail(),
     check("password", "Please enter a password with 6 or more characters")
@@ -32,7 +34,13 @@ router.post("/", [
         });
     } 
 
-    const {name, secondName, email, password} = req.body;
+    const {
+        name, 
+        secondName, 
+        email, 
+        password
+    } = req.body;
+
     try {
         // Register user
         // 1. See if user exists
@@ -78,7 +86,7 @@ router.post("/", [
             payload,
             config.get("jwtSecret"),
             {
-                expiresIn: 360000
+                expiresIn: Number(config.get("jwtExpiresIn"))
             },
             (error, token) => {
                 if (error) throw error;
@@ -87,8 +95,7 @@ router.post("/", [
         );
 
     } catch (err) {
-        console.error(err.message);
-        return res.status(500).send("Server error!");
+        return serverError(res, err);
     }
 });
 

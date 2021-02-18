@@ -8,9 +8,11 @@ const User    = require("../../models/User");
 
 const router = express.Router();
 
-// @route:  POST api/posts
-// @desc:   Create a new post
-// @access: Private
+/**
+ *  @description : Create new post
+ *  @route       : POST api/posts
+ *  @access      : Private
+ */
 
 router.post("/", [
     auth,
@@ -33,27 +35,35 @@ router.post("/", [
             .findOne({_id: req.user.id})
             .select(["-password", "-email", "-date"]);
         
-        const { name, secondName, avatar } = user;
+        const { 
+            name, 
+            secondName, 
+            avatar 
+        } = user;
 
         let postFields = {
-            name, secondName, avatar, text
+            name,
+            secondName, 
+            avatar, 
+            text,
+            user: req.user.id
         };
-
-        postFields.user = req.user.id;
 
         let post = new Post(postFields);
 
         await post.save();
-        res.json(post);
+        return res.json(post);
     } catch (err) {
         return serverError(res, err);
     }
 });
 
 
-// @route:  GET api/posts
-// @desc:   Get all posts
-// @access: Public
+/**
+ *  @description : Get all posts
+ *  @route       : GET api/posts
+ *  @access      : Public
+ */
 
 router.get("/", async (req, res) => {
     try {
@@ -68,18 +78,20 @@ router.get("/", async (req, res) => {
 });
 
 
-// @route:  GET api/posts/post/:post_id
-// @desc:   Get special post by id
-// @access: Public
+/**
+ *  @description : Get special post
+ *  @route       : GET api/posts/:post_id
+ *  @access      : Public
+ */
 
-router.get("/post/:post_id", checkObjectId("post_id"),
+router.get("/:post_id", checkObjectId("post_id"),
     async ({ params : { post_id }}, res) => {
     try {
         const post = await Post.findOne({_id: post_id});
 
         if (!post) {
             return res.status(400).json({
-                    msg: "There is no post =(. Please, make sure that you've entered valid link"
+                    msg: "There is no post"
                 });
         }
 
@@ -90,11 +102,14 @@ router.get("/post/:post_id", checkObjectId("post_id"),
 });
 
 
-// @route:  DELETE api/posts/post/:post_id
-// @desc:   Delete post
-// @access: Private
+/**
+ *  @description : Delete special post
+ *                 (Only if you are autheniticated)
+ *  @route       : DELETE api/posts/:post_id
+ *  @access      : Private
+ */
 
-router.delete("/post/:post_id", [
+router.delete("/:post_id", [
     auth,
     checkObjectId("post_id")
 ], async (req, res) => {
@@ -120,11 +135,13 @@ router.delete("/post/:post_id", [
 });
 
 
-// @route:  PUT api/posts/post/like/:post_id
-// @desc:   Like post
-// @access: Private
+/**
+ *  @description : Like post
+ *  @route       : PUT api/posts/like/:post_id
+ *  @access      : Private
+ */
 
-router.put("/post/like/:post_id",[
+router.put("/like/:post_id",[
     auth,
     checkObjectId("post_id")
 ], async (req, res) => {
@@ -136,7 +153,7 @@ router.put("/post/like/:post_id",[
 
         if (!post) {
             return res.status(400).json({
-                msg: "There is no post =(. Please, make sure that you've entered valid link"
+                msg: "There is no post"
             });
         }
 
@@ -160,11 +177,13 @@ router.put("/post/like/:post_id",[
 });
 
 
-// @route:  DELETE api/posts/post/like/:post_id
-// @desc:   Unlike post
-// @access: Private
+/**
+ *  @description : Unlike post
+ *  @route       : DELETE api/posts/like/:post_id
+ *  @access      : Private
+ */
 
-router.delete("/post/like/:post_id", [
+router.delete("/like/:post_id", [
     auth,
     checkObjectId("post_id")
 ], async (req, res) => {
@@ -176,7 +195,7 @@ router.delete("/post/like/:post_id", [
 
         if (!post) {
             return res.status(400).json({
-                msg: "There is no post =(. Please, make sure that you've entered valid link"
+                msg: "There is no post"
             });
         }
 
@@ -192,11 +211,13 @@ router.delete("/post/like/:post_id", [
 });
 
 
-// @route:  POST api/posts/post/comment/:post_id
-// @desc:   Leave a comment to post
-// @access: Private
+/**
+ *  @description : Comment post
+ *  @route       : POST api/posts/comment/:post_id
+ *  @access      : Private
+ */
 
-router.post("/post/comment/:post_id", [
+router.post("/comment/:post_id", [
     auth,
     checkObjectId("post_id"),
     check("text", "Comment text is required").notEmpty()
@@ -217,7 +238,7 @@ router.post("/post/comment/:post_id", [
 
         if (!post) {
             return res.status(400).json({
-                msg: "There is no post =(. Please, make sure that you've entered valid link"
+                msg: "There is no post"
             });
         }
 
@@ -244,11 +265,13 @@ router.post("/post/comment/:post_id", [
 });
 
 
-// @route:  DELETE api/posts/post/comment/:post_id/:comment_id
-// @desc:   Delete a comment from post
-// @access: Private
+/**
+ *  @description : Delete comment from post
+ *  @route       : DELETE api/posts/comment/:post_id/:comment_id
+ *  @access      : Private
+ */
 
-router.delete("/post/comment/:post_id/:comment_id", [
+router.delete("/comment/:post_id/:comment_id", [
     auth, 
     checkObjectId("post_id"),
     checkObjectId("comment_id")
@@ -260,12 +283,12 @@ router.delete("/post/comment/:post_id/:comment_id", [
 
         if (!post) {
             return res.status(400).json({
-                msg: "There is no post =(. Please, make sure that you've entered valid link"
+                msg: "There is no post"
             });
         }
 
         post.comments = post.comments.filter( comment => {
-            return comment._id != comment_id;
+            return comment._id !== comment_id;
         });
 
         await post.save();
@@ -276,11 +299,13 @@ router.delete("/post/comment/:post_id/:comment_id", [
 });
 
 
-// @route:  PUT api/posts/post/comment/like/:post_id/:comment_id
-// @desc:   Like a comment 
-// @access: Private
+/**
+ *  @description : Like comment 
+ *  @route       : PUT api/posts/comment/like/:post_id/:comment_id
+ *  @access      : Private
+ */
 
-router.put("/post/comment/like/:post_id/:comment_id", [
+router.put("/comment/like/:post_id/:comment_id", [
     auth,
     checkObjectId("post_id"),
     checkObjectId("comment_id")
@@ -293,7 +318,7 @@ router.put("/post/comment/like/:post_id/:comment_id", [
 
         if (!post) {
             return res.status(400).json({
-                msg: "There is no post =(. Please, make sure that you've entered valid link"
+                msg: "There is no post"
             });
         }
 
@@ -304,7 +329,7 @@ router.put("/post/comment/like/:post_id/:comment_id", [
 
         if (idx == -1) {
             return res.status(400).json({
-                msg: "There is no comment =(. Please, make sure that you've entered valid link"
+                msg: "There is no comment"
             });
         }
 
@@ -328,11 +353,13 @@ router.put("/post/comment/like/:post_id/:comment_id", [
 });
 
 
-// @route:  DELETE api/posts/post/comment/like/:post_id/:comment_id
-// @desc:   Unlike a comment 
-// @access: Private
+/**
+ *  @description : Unlike comment 
+ *  @route       : DELETE api/posts/comment/like/:post_id/:comment_id
+ *  @access      : Private
+ */
 
-router.delete("/post/comment/like/:post_id/:comment_id", [
+router.delete("/comment/like/:post_id/:comment_id", [
     auth,
     checkObjectId("post_id"),
     checkObjectId("comment_id")
@@ -370,4 +397,5 @@ router.delete("/post/comment/like/:post_id/:comment_id", [
         return serverError(res, err);
     }
 });
+
 module.exports = router;

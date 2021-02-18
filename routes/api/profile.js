@@ -1,18 +1,19 @@
 const express                     = require("express");
 const { check, validationResult } = require("express-validator");
-
 const checkObjectId = require("../../middleware/checkObjectId");
 const auth          = require("../../middleware/auth");
-
 const Profile = require("../../models/Profile");
 const User    = require("../../models/User");
 const Post    = require("../../models/Post");
+const serverError = require("../../utils/serverError");
 
 const router = express.Router();
 
-// @route:  GET api/profile/me
-// @desc:   Get current user profile
-// @access: Private
+/**
+ *  @description : Get current user profile
+ *  @route       : GET api/profile/me
+ *  @access      : Private
+ */
 
 router.get("/me", auth, async(req, res) => {
     try {
@@ -29,21 +30,16 @@ router.get("/me", auth, async(req, res) => {
         res.json(profile);
 
     } catch (err) {
-        console.error(err.message);
-        return res.status(500).send("Server Error!");
+        return serverError(res, err);
     }
 });
 
 
-// @route   POST api/profile
-// @desc    Create/update users profile
-//          1. Require 'status' & 'skills' to be.
-//          2. Check for our validation
-//          3. Getting profile props from req.body
-//          4. Define our profile fields object, add a 'user' prop
-//          5. Build profile object
-//          6. Check for profile existing. Update or create new.
-// @access  Private
+/**
+ *  @description : Create/Update profile
+ *  @route       : POST api/profile
+ *  @access      : Private
+ */
 
 router.post("/", [
     auth,
@@ -135,9 +131,11 @@ router.post("/", [
 });
 
 
-// @route: GET api/profile
-// @desc:  Get all profiles
-// @access: Public
+/**
+ *  @description : Get all profiles
+ *  @route       : GET api/profile
+ *  @access      : Public
+ */
 
 router.get("/", async (req, res) => {
     try {
@@ -152,12 +150,15 @@ router.get("/", async (req, res) => {
     }
 });
 
-// @route: GET api/profile/user/:user_id
-// @desc:  Get a profile by user id
-// @access: Public
+
+/**
+ *  @description : Get special profile by user id
+ *  @route       : GET api/profile/:user_id
+ *  @access      : Public
+ */
 
 router.get(
-    "/user/:user_id", 
+    "/:user_id", 
     checkObjectId("user_id"), 
     async ({ params: { user_id } }, res) => {
         try {
@@ -175,9 +176,12 @@ router.get(
     }
 );
 
-// @route: DELETE api/profile
-// @desc:  Delete profile, user and posts
-// @access: Private
+
+/**
+*  @description : Delete user, profile and posts
+*  @route       : DELETE api/profile
+*  @access      : Private
+*/
 
 router.delete("/", auth, async (req, res) => {
     try {
@@ -195,9 +199,11 @@ router.delete("/", auth, async (req, res) => {
 });
 
 
-// @route: PUT api/profile/education
-// @desc:  Add education to profile
-// @access: Private
+/**
+*  @description : Add education
+*  @route       : PUT api/profile/education
+*  @access      : Private
+*/
 
 router.put("/education", [
     auth,
@@ -232,9 +238,11 @@ router.put("/education", [
 ]);
 
 
-// @route: DELETE api/profile/education/:education_id
-// @desc:  Add education to profile
-// @access: Private
+/**
+*  @description : Delete education 
+*  @route       : DELETE api/profile/education/:education_id
+*  @access      : Private
+*/
 
 router.delete("/education/:education_id", [
     auth,
@@ -244,7 +252,7 @@ router.delete("/education/:education_id", [
         let profile = await Profile.findOne({ user: req.user.id });
 
         profile.education = profile.education.filter( edu => {
-            return edu._id.toString() != req.params.education_id; 
+            return edu._id.toString() !== req.params.education_id; 
         });
 
         await profile.save();
