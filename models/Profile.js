@@ -21,7 +21,8 @@ const ProfileSchema = new mongoose.Schema({
                 required: true
             },
             skillType: {
-                type: String
+                type: String,
+                default: "common"
             }
         }
     ],
@@ -38,7 +39,7 @@ const ProfileSchema = new mongoose.Schema({
                 type: String,
                 required: true
             },
-            fieldofstudy: {
+            fieldmnofstudy: {
                 type: String,
                 required: true
             },

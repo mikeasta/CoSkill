@@ -5,6 +5,7 @@ const checkObjectId = require("../../middleware/checkObjectId")
 const { check, validationResult } = require("express-validator");
 const Post    = require("../../models/Post");
 const User    = require("../../models/User");
+const Profile = require("../../models/Profile");
 
 const router = express.Router();
 
@@ -34,6 +35,10 @@ router.post("/", [
         const user = await User
             .findOne({_id: req.user.id})
             .select(["-password", "-email", "-date"]);
+
+        const profile = await Profile.findOne({user: req.user.id});
+
+        const { skills } = profile;
         
         const { 
             name, 
@@ -46,7 +51,8 @@ router.post("/", [
             secondName, 
             avatar, 
             text,
-            user: req.user.id
+            user: req.user.id,
+            skills
         };
 
         let post = new Post(postFields);
@@ -69,7 +75,7 @@ router.get("/", async (req, res) => {
     try {
         const posts = await Post
             .find()
-            .populate("users", ["name", "secondName", "avatar"]);
+            .populate("user", ["name", "secondName", "avatar"]);
 
         return res.json(posts);
     } catch (err) {
@@ -104,7 +110,7 @@ router.get("/:post_id", checkObjectId("post_id"),
 
 /**
  *  @description : Delete special post
- *                 (Only if you are autheniticated)
+ *                 (Only if you are authorized)
  *  @route       : DELETE api/posts/:post_id
  *  @access      : Private
  */
@@ -128,7 +134,8 @@ router.delete("/:post_id", [
         await Post.deleteOne({ _id: post_id });
         return res.json({
             msg: "Post deleted!"
-        })
+        });
+        
     } catch (err) {
         return serverError(res, err);
     }
@@ -235,6 +242,7 @@ router.post("/comment/:post_id", [
     try {
         const post = await Post.findById( post_id );
         const user = await User.findById(id).select(["-password", "-email", "-date"]);
+        const profile = await Profile.findOne({user: id});
 
         if (!post) {
             return res.status(400).json({
@@ -248,12 +256,15 @@ router.post("/comment/:post_id", [
             avatar
         } = user;
 
+        const { skills } = profile;
+
         const commentFields = {
             name,
             secondName,
             avatar,
             text: req.body.text,
-            user: id
+            user: id,
+            skills
         };
 
         post.comments.unshift(commentFields);
@@ -372,7 +383,7 @@ router.delete("/comment/like/:post_id/:comment_id", [
 
         if (!post) {
             return res.status(400).json({
-                msg: "There is no post =(. Please, make sure that you've entered valid link"
+                msg: "There is no post"
             });
         }
 
@@ -383,7 +394,7 @@ router.delete("/comment/like/:post_id/:comment_id", [
 
         if (idx == -1) {
             return res.status(400).json({
-                msg: "There is no comment =(. Please, make sure that you've entered valid link"
+                msg: "There is no comment"
             });
         }
 

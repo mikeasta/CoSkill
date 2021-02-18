@@ -6,7 +6,7 @@ const connectDB = require('./config/db');
 connectDB();
 
 // Init Middleware 
-// This middleware gives us oportunity to 
+// This middleware gives us opportunity to 
 // read req.body data in more comfortable json object
 app.use(express.json({ extended: false }));
 

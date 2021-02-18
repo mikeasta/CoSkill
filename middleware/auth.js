@@ -9,14 +9,14 @@ module.exports = function(req, res, next)  {
     // Check if there no token
     if (!token) {
         return res.status(401).json({
-            msg: "No token. Authorithation denied"
+            msg: "No token. Authorization denied"
         })
     }
 
     try {
         // Getting payload (user id) from token and pull it into request
         const decoded = jwt.verify(token, config.get("jwtSecret"));
-        req.user = decoded.user;
+        req.user      = decoded.user;
         next();
     } catch (err) {
         return res.status(401).json({

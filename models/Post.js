@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const PostSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "users"
+        ref: "user"
     },
     text: {
         type: String,
@@ -21,7 +21,19 @@ const PostSchema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "users"
+                ref: "user"
+            }
+        }
+    ],
+    skills: [
+        {
+            label: {
+                type: String,
+                required: true
+            }, 
+            skillType: {
+                type: String,
+                default: "common"
             }
         }
     ],
@@ -29,7 +41,7 @@ const PostSchema = new mongoose.Schema({
         {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "users"
+                ref: "user"
             },
             text: {
                 type: String,
@@ -44,11 +56,23 @@ const PostSchema = new mongoose.Schema({
             avatar: {
                 type: String
             },
+            skills: [
+                {
+                    label: {
+                        type: String,
+                        required: true
+                    }, 
+                    skillType: {
+                        type: String,
+                        default: "common"
+                    }
+                }
+            ],
             likes: [
                 {
                     user: {
                         type: mongoose.Schema.Types.ObjectId,
-                        ref: "users"
+                        ref: "user"
                     }
                 }
             ],
