@@ -110,23 +110,154 @@ input {
 }
 
 #auth-forms-container {
+    margin: 1em 0;
     box-sizing: border-box;
     width: 100%;
     overflow: hidden;
+    display: flex;
+    max-height: 35vh;
 }
 
 #login-form-container,
 #register-form-container {
     width: 100%;
+    display: flex;
+    margin: .5em 0;
 }
 
 #login-via-inputs,
 #login-via-socials {
-    width: 40%;
-    margin-top: 3em;
+    width: 44%;
+    display: flex;
+    margin-top: 2em;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-via-socials {
+    margin-top: 1em;
 }
 
 #login-via-inputs input {
     margin-bottom: 1em;
+    padding: .5em;
 }
 
+#login-via-inputs input[type="submit"] {
+    background-color: #2ecc71;
+    color: #ecf0f1;
+    font-weight: 500;
+    font-size: 1.5em;
+}
+
+#login-divider-container {
+    width: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#login-divider {
+    width: .3em;
+    background-color: #34495e;
+    height: 12em;
+}
+
+#login-divider-or {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: 600;
+    color: #34495e;
+    background-color: #ecf0f1;
+    padding: .3em;
+    border-radius: 10em;
+}
+
+.login-socials {
+    width: 80%;
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: 500;
+    background-color: #000;
+    color: #ecf0f1;
+    margin-bottom: 1em;
+    border-radius: 2em;
+    transition: .3s;
+}
+
+.login-socials:hover {
+    cursor: pointer;
+    transition: .3s;
+}
+
+.login-socials i {
+    margin-left: .7em;
+    font-size:26px;
+}
+
+.login-socials-google {
+    background-color: #e74c3c;
+}
+
+.login-socials-google:hover {
+    background-color: #c94233;
+}
+
+.login-socials-github {
+    background-color: #34495e;
+}
+
+.login-socials-github:hover {
+    background-color: #283847;
+}
+
+.login-socials-facebook {
+    background-color: #4a69bd;
+}
+
+.login-socials-facebook:hover {
+    background-color: #405ba7;
+}
+
+#register-form-container {
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+#register-form-container input {
+    width: 40%;
+    margin-bottom: 2.5em;
+    padding: .5em;
+}
+
+#register-form-container input[type="submit"] {
+    background-color: #2ecc71;
+    font-weight: 500;
+    color: #ecf0f1;
+}
+
+#auth-welcome {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    border-top: 2px solid #34495e;
+    padding-top: 1.5em;
+}
+
+#auth-welcome span {
+    font-size: 2em;
+    color: #34495e;
+    font-weight: 500;
+}
