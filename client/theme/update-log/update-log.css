@@ -1,0 +1,56 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#update-log-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+
+    width: 100%;
+    border-radius: 5vh;
+    box-sizing: content-box;
+    background: url(https://static.vecteezy.com/system/resources/previews/000/208/955/original/vector-abstract-landscape-illustration.jpg);
+    background-size: 100%;
+    background-position-y: -18vh;
+    box-shadow: 0 0 .5em #2d68ffb9;
+    transition: .3s;
+}
+
+#update-log-wrapper:hover {
+    box-shadow: 0 0 1.5em #2d68ffb9;
+    background-position-y: -23vh;
+    transition: .3s;
+}
+
+#update-log-colored {
+    padding: 10vh 0;
+    background-color: #2d68ffb9;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    color: #ecf0f1;
+}
+
+#update-log-colored h2 {
+    font-weight: 600;
+    font-size: 3.5em;
+}
+
+#update-log-colored span {
+    font-size: 1.5em;
+}
+
+#update-log-colored button {
+    margin: 2em 0 1em 0;
+}
+
+#update-log-colored .card {
+    color: #ecf0f1;
+    background-color: #34495e;
+    font-size: 20px;
+}
