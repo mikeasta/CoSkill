@@ -1,0 +1,36 @@
+body {
+    box-sizing: border-box;
+}
+
+#alert-list {
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+    overflow: hidden;
+}
+
+#alert-list div {
+    display: flex;
+    align-items: center;
+    animation-name: alertLifeCycle;
+    animation-duration: 10s;
+    right: -25em;
+}
+
+#alert-list i{
+    font-size: 1.5em;
+    margin-right: .4em;
+}
+
+@keyframes alertLifeCycle {
+    0% {
+        right: -25em;
+    } 7% {
+        right: 0em;
+    } 93% {
+        right: 0em;
+    } 100% {
+        right: -25em;
+    } 
+}
+

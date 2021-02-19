@@ -55,7 +55,7 @@ input {
 #auth-headline {
     font-weight: 600;
     font-size: 400%;
-    color: #34495e;
+    color: #ecf0f1;
 }
 
 @keyframes authWrapperAppearing {
