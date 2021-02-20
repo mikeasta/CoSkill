@@ -1,0 +1,148 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+#landing {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+/*  Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #34495e;
+    padding: 1em 4em;
+}
+
+#header-logo {
+    display: flex;
+    align-items: center;
+    color: #ecf0f1; 
+    font-size: 2em;
+    font-weight: 600;
+}
+
+#header-nav {
+    display: flex;
+    align-items: center;
+}
+
+#header-search {
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+#header-search input[type="text"] {
+    border: none;
+    background: none;
+    outline: none;
+
+    background-color: #ecf0f1;
+    padding: .3em .5em;
+    border-radius: .3em 0 0 .3em;
+}
+
+#header-search button[type="submit"] {
+    border: none;
+    background: none;
+    outline: none;
+
+    border-radius: 0 .3em .3em 0;
+    padding: .3em 1em;
+    background-color: #2ecc71;
+    color: #2c3e50; 
+}
+
+#header-profiles,
+#header-notifications {
+    font-size: 1.5em;
+    margin-left: 1em;
+    color: #ecf0f1;
+} 
+
+#header-notifications {
+    margin-left: 2.5em;
+}
+
+#header-profiles:hover,
+#header-notifications:hover {
+    color: #bdc3c7;
+    transition: .1s;
+}
+
+#dark-mode-toggle-container {
+    display: flex;
+    margin-left: 3em;
+    align-items: center;
+}
+
+#dark-mode-toggle {
+    width: 3.5em;
+    height: 1.7em;
+    border: 2px solid #ecf0f1;
+    background-color: #ecf0f1;
+    border-radius: .85em;
+    padding: .1em .2em;
+    margin-right: 1em;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.466);
+    display: flex;
+    align-items: center;
+    transition-property: "justify-content";
+    transition-duration: .3s;
+}
+
+#dark-mode-toggle-circle {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: #34495e;
+    border-radius: .8em;
+    border-width: 2px;
+    border-style: solid;
+    border-color:  #34495e;
+    transition: .2s;
+}
+
+#dark-mode-toggle-container span {
+    color: #ecf0f1;
+    font-weight: 500;
+}
+
+#header-profile {
+    display: flex;
+    align-items: center;
+}
+
+#header-profile:hover {
+    cursor: pointer;
+}
+
+#header-profile span {
+    color: #ecf0f1;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+#header-profile span:hover {
+    text-decoration: underline;
+}
+
+#header-profile-img {
+    width: 4em;
+    height: 4em;
+    border-radius: .5em;
+    margin: 0 1em;
+}
+
+#header-profile i {
+    color: #ecf0f1;
+    padding: .5em;
+    border-radius: .5em;
+}
+
+#header-profile i:hover {
+    background-color: #2c3e50;
+}
