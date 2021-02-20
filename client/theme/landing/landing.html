@@ -14,7 +14,7 @@
 </head>
 <body>
     <div id="landing">
-        <header>
+        <header >
             <span id="header-logo">
                 Co-Skill
             </span>
@@ -67,6 +67,7 @@
         <script>
             let toggle = document.getElementById("dark-mode-toggle");
             let circle = document.getElementById("dark-mode-toggle-circle");
+            let landing = document.getElementById("landing");
             localStorage.theme = "light";
 
             toggle.addEventListener("click", () => {
@@ -77,6 +78,7 @@
                     toggle.style.backgroundColor = "#000";
                     circle.style.backgroundColor = "#000";
                     circle.style.borderColor     = "#ecf0f1";
+                    landing.className = "dark-mode";
                     // ... and some code for changing body class
                 } else {
                     // To light
@@ -85,6 +87,7 @@
                     toggle.style.backgroundColor = "#ecf0f1";
                     circle.style.backgroundColor = "#34495e";
                     circle.style.borderColor     = "#34495e";
+                    landing.className = "";
                 }
             });
         </script>

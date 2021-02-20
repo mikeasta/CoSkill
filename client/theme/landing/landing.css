@@ -14,7 +14,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: #34495e;
-    padding: 1em 4em;
+    padding: .7em 4em;
 }
 
 #header-logo {
@@ -80,6 +80,10 @@ header {
     align-items: center;
 }
 
+#dark-mode-toggle-container:hover {
+    cursor: pointer;
+}
+
 #dark-mode-toggle {
     width: 3.5em;
     height: 1.7em;
@@ -96,8 +100,8 @@ header {
 }
 
 #dark-mode-toggle-circle {
-    width: 1.3em;
-    height: 1.3em;
+    width: 1.2em;
+    height: 1.2em;
     background-color: #34495e;
     border-radius: .8em;
     border-width: 2px;
@@ -131,8 +135,8 @@ header {
 }
 
 #header-profile-img {
-    width: 4em;
-    height: 4em;
+    width: 2.5em;
+    height: 2.5em;
     border-radius: .5em;
     margin: 0 1em;
 }
@@ -145,4 +149,50 @@ header {
 
 #header-profile i:hover {
     background-color: #2c3e50;
+}
+
+.dark-mode header {
+    background-color: #000;
+    color: #ecf0f1;
+    transition: .2s;
+}
+
+.dark-mode #header-search input[type="text"] {
+    border: none;
+    background: none;
+    outline: none;
+
+    background-color: #000;
+    color: #ecf0f1;
+    border: 2px solid #ecf0f1;
+    padding: .2em .35em;
+    border-radius: .3em 0 0 .3em;
+    transition: .2s;
+}
+
+.dark-mode #header-search button[type="submit"] {
+    border: none;
+    background: none;
+    outline: none;
+
+    border-radius: 0 .3em .3em 0;
+    padding: .2em 1em;
+    border: 2px solid #ecf0f1;
+    background-color: #000;
+    color: #2ecc71;
+    border-left: none;
+    transition: .2s;
+}
+
+.dark-mode #header-profile i {
+    color: #ecf0f1;
+    padding: .4em;
+    border-radius: .5em;
+    border: 2px solid #ecf0f1;
+}
+
+.dark-mode #header-profile i:hover {
+    background-color: #ecf0f1;
+    color: #000;
+    transition: .2s;
 }
