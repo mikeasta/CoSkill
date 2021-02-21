@@ -14,7 +14,7 @@ header {
     justify-content: space-between;
     align-items: center;
     background-color: #34495e;
-    padding: .7em 4em;
+    padding: .9em 4em;
 }
 
 #header-logo {
@@ -155,6 +155,7 @@ header {
     background-color: #000;
     color: #ecf0f1;
     transition: .2s;
+    border-bottom:1px solid #ecf0f1;
 }
 
 .dark-mode #header-search input[type="text"] {
@@ -195,4 +196,32 @@ header {
     background-color: #ecf0f1;
     color: #000;
     transition: .2s;
+}
+
+/* Body*/
+.dark-mode {
+    background-color: #000;
+    color: #ecf0f1;
+}
+
+/* Main */
+#landing main {
+    display: flex;
+    width: 100%;
+}
+
+#can-be-interesting-container {
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    padding-top: 2em
+}
+
+#can-be-interesting {
+    width: 90%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    border-radius: 1em;
+    box-shadow: 0 0 5px #000;
 }
