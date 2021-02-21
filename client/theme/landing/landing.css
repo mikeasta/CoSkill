@@ -87,12 +87,12 @@ header {
 #dark-mode-toggle {
     width: 3.5em;
     height: 1.7em;
-    border: 2px solid #ecf0f1;
+    border: 2px solid #34495e;
     background-color: #ecf0f1;
     border-radius: .85em;
     padding: .1em .2em;
     margin-right: 1em;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.466);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.493);
     display: flex;
     align-items: center;
     transition-property: "justify-content";
@@ -152,10 +152,9 @@ header {
 }
 
 .dark-mode header {
-    background-color: #000;
+    background-color: rgb(29, 29, 29);
     color: #ecf0f1;
     transition: .2s;
-    border-bottom:1px solid #ecf0f1;
 }
 
 .dark-mode #header-search input[type="text"] {
@@ -164,8 +163,9 @@ header {
     outline: none;
 
     background-color: #000;
+    border: 1px solid #494949;
+    border-right: none;
     color: #ecf0f1;
-    border: 2px solid #ecf0f1;
     padding: .2em .35em;
     border-radius: .3em 0 0 .3em;
     transition: .2s;
@@ -178,10 +178,9 @@ header {
 
     border-radius: 0 .3em .3em 0;
     padding: .2em 1em;
-    border: 2px solid #ecf0f1;
+    border: 1px solid #494949;
     background-color: #000;
     color: #2ecc71;
-    border-left: none;
     transition: .2s;
 }
 
@@ -210,6 +209,7 @@ header {
     width: 100%;
 }
 
+/* Can be interesting */
 #can-be-interesting-container {
     width: 25%;
     display: flex;
@@ -223,5 +223,51 @@ header {
     flex-flow: column;
     align-items: center;
     border-radius: 1em;
-    box-shadow: 0 0 5px #000;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.185);
+    padding-bottom: 1em;
+    transition: .1s;
+}
+
+.dark-mode #can-be-interesting {
+    border: 2px solid #494949;
+}
+
+#can-be-interesting:hover {
+    box-shadow: 0 0 10px rgba(255, 218, 218, 0.445);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.dark-mode #can-be-interesting:hover {
+    box-shadow: 0 0 10px rgb(255, 255, 255);
+    cursor: pointer;
+    transition: .2s;
+}
+
+
+#can-be-interesting h5 {
+    width: 100%;
+    background-color: #2ecc71;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5em 0;
+}
+
+.dark-mode #can-be-interesting h5 {
+    background-color: #000;
+    border-bottom: 2px solid #494949;
+}
+
+#can-be-interesting img {
+    width: 65%;
+    border-radius: 1em;
+    margin: 1em 0 1.5em 0;
+}
+
+#can-be-interesting span {
+    font-weight: 600;
+    font-size: 22px;
+    margin-top: .3em;
 }
