@@ -283,7 +283,8 @@ header {
     padding: 0 1em;
 }
 
-#post-list {
+#post-list,
+#profile-posts {
     width: 90%;
     display: flex;
     flex-flow: column;

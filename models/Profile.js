@@ -86,7 +86,7 @@ const ProfileSchema = new mongoose.Schema({
         }
     },
     contacts: {
-        mobilePhone: {
+        mobilephone: {
             type: String
         },
         phone: {

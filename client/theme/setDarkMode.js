@@ -1,8 +1,6 @@
-let toggle   = document.getElementById("dark-mode-toggle");
-let circle   = document.getElementById("dark-mode-toggle-circle");
-let body     = document.getElementById("body");
-let viewBtn  = document.getElementById("post_id-view-comments");
-let comments = document.getElementById("post_id-comments");
+const toggle   = document.getElementById("dark-mode-toggle");
+const circle   = document.getElementById("dark-mode-toggle-circle");
+const body     = document.getElementById("body");
 localStorage.theme = "light";
 
 toggle.addEventListener("click", () => {
@@ -23,14 +21,4 @@ toggle.addEventListener("click", () => {
         circle.style.borderColor     = "#34495e";
         body.className = "";
     }
-});
-
-let isComments = false;
-viewBtn.addEventListener("click", () => {
-    if (!isComments) {
-        comments.style.display = "block";
-    } else {
-        comments.style.display = "none";
-    }
-    isComments = !isComments;
 });

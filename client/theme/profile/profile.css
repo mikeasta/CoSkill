@@ -406,6 +406,68 @@ main {
     cursor: pointer;
 }
 
+#profile-more-hidden,
+#profile-more-geo,
+#profile-more-socials,
+#profile-more-contacts {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
 #profile-more-hidden {
-    
+    display: none;
+}
+
+#profile-more-hidden div {
+    width: 30%; 
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: center;
+    padding: .5em 1em;
+    border-radius: 2em;
+    color: #ecf0f1;
+    background-color: #34495e;
+}
+
+.dark-mode #profile-more-hidden div {
+    background-color: #292929;
+}
+
+#profile-more-hidden div b {
+    margin-right: .5em;
+}
+
+#profile-more-hidden h3 {
+    margin-top: 1em;
+}
+
+#profile-more-socials {
+    margin-top: 1em;
+}
+
+#profile-photos {
+    position: relative;
+    margin: 2em 0;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    width: 100%;
+    background-color: #2c3e50;
+}
+
+#profile-photos img {
+    width: 18em;
+    height: 18em;
+    border-radius: 1em;
+    margin: 1em
+}
+
+.dark-mode #profile-photos {
+    background-color: #292929;
+}
+
+#profile-posts {
+    margin: 2em 0;
 }
