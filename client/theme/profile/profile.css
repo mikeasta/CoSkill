@@ -471,3 +471,26 @@ main {
 #profile-posts {
     margin: 2em 0;
 }
+
+#profile-edit {
+    box-sizing: border-box;
+    z-index: 2;
+    position: fixed;
+    bottom: 5%;
+    right:  1%;
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ecf0f1;
+    background-color: #2ecc70d5;
+    box-shadow: 0 0 15px 2px #2ecc708e;
+}
+
+#profile-edit:hover {
+    cursor: pointer;
+    font-size: 24px;
+    transition: .2s;
+}
